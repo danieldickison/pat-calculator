@@ -11,12 +11,23 @@ export class PatCalculator {
   }
 
   calculate () {
-    const { prep, drug, integration, rates } = this.form
+    const { participants, prep, drug, integration, rates } = this.form
+    const prepGroups = Math.ceil(participants / prep.patients)
+    const drugSessions = drug.sessions * Math.ceil(participants / drug.patients)
+    const integrationGroups = Math.ceil(participants / integration.patients)
 
     const totalHours = {
-      licensed: prep.hours * prep.licensed + drug.licensed_hours + integration.hours * integration.licensed,
-      unlicensed: prep.hours * prep.unlicensed + drug.unlicensed_hours + integration.hours * integration.unlicensed,
-      physician: drug.physician_hours,
+      licensed: (
+        prepGroups * prep.hours * prep.licensed +
+        drugSessions * drug.licensedHours +
+        integrationGroups * integration.hours * integration.licensed
+      ),
+      unlicensed: (
+        prepGroups * prep.hours * prep.unlicensed +
+        drugSessions * drug.unlicensedHours +
+        integrationGroups * integration.hours * integration.unlicensed
+      ),
+      physician: drugSessions * drug.physicianHours,
     }
 
     this.output.totalLicensedHours.textContent = totalHours.licensed

@@ -44,6 +44,9 @@
       slider-input {
         margin: 0 0.5em;
       }
+      form .container {
+        padding-left: 2em;
+      }
 
       #output {
         background: #0009;
@@ -90,6 +93,7 @@
         }
         input[type="number"] {
           min-width: 6ch;
+          text-align: right;
         }
       </style>
       <label>
@@ -110,6 +114,13 @@
     </p>
 
     <form>
+      <fieldset>
+        <legend>Study</legend>
+        <slider-input name="participants" min="1" max="100" value="20" required>
+          Total number of participants:
+        </slider-input>
+      </fieldset>
+
       <fieldset>
         <legend>Preparation</legend>
         <slider-input name="prep_hours" step="0.5" min="0" max="10" value="2" required>
@@ -140,7 +151,7 @@
         </select>
         <br>
         <slider-input name="drug_hours" min="0" step="0.5" max="48" value="8" required suffix="hours">
-          Anticipated length of drug administration session (suggested lengths above):
+          Anticipated length of drug administration session:
         </slider-input>
         <slider-input name="drug_sessions" min="1" max="10" value="2" required>
           # of drug administration sessions:
@@ -149,20 +160,20 @@
         <slider-input name="licensed_therapists_drug" min="0" max="4" value="1" required>
           # of licensed therapists present for first drug administration session:
         </slider-input>
-        <div id="licensed_therapists_hours_container"></div>
-        <template id="licensed_therapists_hours_template">
+        <div class="container licensed_therapists_hours"></div>
+        <template class="licensed_therapists_hours">
           <slider-input name="licensed_therapists_hours" min="1" max="48" value="8" required>
-            Hours of licensed therapists present for drug administration session(s):
+            Hours licensed therapist <span class="number"></span> present for each drug administration session:
           </slider-input>
         </template>
 
         <slider-input name="unlicensed_therapists_drug" min="0" max="4" value="0" required>
           # of unlicensed therapists present for drug administration session:
         </slider-input>
-        <div id="unlicensed_therapists_hours_container"></div>
-        <template id="unlicensed_therapists_hours_template">
+        <div class="container unlicensed_therapists_hours"></div>
+        <template class="unlicensed_therapists_hours">
           <slider-input name="unlicensed_therapists_hours" min="1" max="48" value="8" required>
-            Hours of unlicensed therapists present for drug administration session(s):
+            Hours unlicensed therapist <span class="number"></span> present for each drug administration session:
           </slider-input>
         </template>
 
@@ -205,13 +216,13 @@
       <fieldset>
         <legend>Hourly Rates</legend>
         <slider-input name="rate_licensed" min="50" max="500" value="200" prefix="$" required>
-          Enter hourly rate of licensed therapist:
+          Hourly rate of licensed therapist:
         </slider-input>
         <slider-input name="rate_unlicensed" min="50" max="500" value="100" prefix="$" required>
-          Enter hourly rate of unlicensed therapist:
+          Hourly rate of unlicensed therapist:
         </slider-input>
         <slider-input name="rate_physician" min="50" max="500" value="300" prefix="$" required>
-          Enter hourly rate of physician/medical professional:
+          Hourly rate of physician/medical professional:
         </slider-input>
       </fieldset>
     </form>
