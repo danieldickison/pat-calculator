@@ -5,6 +5,8 @@ export class PatForm {
     this.form = form
 
     form.elements.drug_type.addEventListener('change', () => this.#reactToDrugChange())
+    form.elements.drug_hours.addEventListener('change', () => this.#reactToDrugHoursChange())
+
     form.elements.licensed_therapists_drug.addEventListener('input', (e) => this.#reactToTherapistChange('licensed_therapists_hours', e.currentTarget.value))
     form.elements.unlicensed_therapists_drug.addEventListener('input', (e) => this.#reactToTherapistChange('unlicensed_therapists_hours', e.currentTarget.value))
 
@@ -20,7 +22,7 @@ export class PatForm {
     this.#reactToPhysicianChange()
   }
 
-  #reactToDrugChange() {
+  #reactToDrugChange () {
     const index = this.form.elements.drug_type.selectedIndex
     const option = this.form.elements.drug_type[index]
     if (option) {
@@ -28,14 +30,34 @@ export class PatForm {
     }
   }
 
-  #reactToTherapistChange(selectorBase, count) {
+  #reactToDrugHoursChange () {
+    // Default all provider hours to new drug session duration
+    const hours = this.form.elements.drug_hours.value
+
+    const setOne = (sliderOrNodelist) => {
+      if (sliderOrNodelist instanceof SliderInput) {
+        sliderOrNodelist.setAttribute('max', hours)
+        sliderOrNodelist.value = hours
+      } else if (sliderOrNodelist) {
+        for (const slider of sliderOrNodelist) setOne(slider)
+      }
+    }
+    setOne(this.form.elements.licensed_therapists_hours)
+    setOne(this.form.elements.unlicensed_therapists_hours)
+    setOne(this.form.elements.physician_hours)
+  }
+
+  #reactToTherapistChange (selectorBase, count) {
     const container = this.form.querySelector(`.container.${selectorBase}`)
     const template = this.form.querySelector(`template.${selectorBase}`)
+    const drugHours = this.form.elements.drug_hours.value
     const delta = count - container.childElementCount
     if (delta > 0) {
       for (let i = 0; i < delta; i++) {
         const clone = template.content.cloneNode(true)
         clone.querySelector('.number').textContent = `#${count - delta + i + 1}`
+        clone.querySelector('slider-input').setAttribute('max', drugHours)
+        clone.querySelector('slider-input').setAttribute('value', drugHours)
         container.appendChild(clone)
       }
     } else if (delta < 0) {
@@ -65,17 +87,20 @@ export class PatForm {
     }
     this.form.elements.different_sessions.disabled = sessions === 1
 
+    const drugHours = this.form.elements.drug_hours.value
     const diffHours = this.form.elements.different_sessions.checked
     if (diffHours) {
       for (let i = 0; i < sessions; i++) {
         const clone = this.form.querySelector('template.physician_hours_multi').content.cloneNode(true)
         clone.querySelector('.number').textContent = `#${i + 1}`
-        clone.querySelector('slider-input').setAttribute('value', currentHours[i] ?? this.form.elements.drug_hours.value)
+        clone.querySelector('slider-input').setAttribute('max', drugHours)
+        clone.querySelector('slider-input').setAttribute('value', Math.min(drugHours, currentHours[i] ?? drugHours))
         sessionsContainer.appendChild(clone)
       }
     } else {
       const clone = this.form.querySelector('template.physician_hours_single').content.cloneNode(true)
-      clone.querySelector('slider-input').setAttribute('value', currentHours[0] ?? this.form.elements.drug_hours.value)
+      clone.querySelector('slider-input').setAttribute('max', drugHours)
+      clone.querySelector('slider-input').setAttribute('value', Math.min(drugHours, currentHours[0] ?? drugHours))
       sessionsContainer.appendChild(clone)
     }
   }

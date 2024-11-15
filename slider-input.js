@@ -66,6 +66,10 @@ export class SliderInput extends HTMLElement {
   }
 
   set value (val) {
+    if (this.getAttribute('value') === val.toString()) return
+
     this.setAttribute("value", val)
+    const event = new Event('change', { bubbles: true, composed: true })
+    this.dispatchEvent(event)
   }
 }
