@@ -3,13 +3,11 @@ export class SliderInput extends HTMLElement {
     customElements.define('slider-input', SliderInput)
   }
 
-  static observedAttributes = ['value', 'min', 'max', 'step', 'name', 'required']
+  static observedAttributes = ['value', 'min', 'max', 'step', 'name', 'required', 'prefix', 'suffix']
 
   constructor () {
     super()
-  }
 
-  connectedCallback () {
     const template = document.getElementById('slider-input-template')
     this.attachShadow({mode: 'open', delegatesFocus: true})
       .appendChild(template.content.cloneNode(true))
@@ -21,6 +19,9 @@ export class SliderInput extends HTMLElement {
     })
   }
 
+  connectedCallback () {
+  }
+
   attributeChangedCallback (name, oldValue, newValue) {
     switch (name) {
     case 'name':
@@ -30,9 +31,13 @@ export class SliderInput extends HTMLElement {
     case 'required':
       this.#numberInput.required = !!newValue
       break
+    case 'prefix':
+    case 'suffix':
+      this.shadowRoot.querySelector('.' + name).textContent = newValue
+      break
     default:
       this.#numberInput.setAttribute(name, newValue)
-      this.rangeInput.setAttribute(name, newValue)
+      this.#rangeInput.setAttribute(name, newValue)
       break
     }
   }
@@ -47,7 +52,22 @@ export class SliderInput extends HTMLElement {
     return this.shadowRoot.querySelector('input[type="number"]')
   }
 
+  /** @returns {HTMLSpanElement} */
+  get #prefixSpan () {
+    return this.shadowRoot.querySelector('.prefix')
+  }
+
+  /** @returns {HTMLSpanElement} */
+  get #suffixSpan () {
+    return this.shadowRoot.querySelector('.suffix')
+  }
+
   get value () {
     return parseFloat(this.#numberInput.value)
+  }
+
+  set value (val) {
+    this.#numberInput.value = val
+    this.#rangeInput.value = val
   }
 }

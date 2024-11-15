@@ -44,6 +44,19 @@
       slider-input {
         margin: 0 0.5em;
       }
+
+      #output {
+        background: #0009;
+        backdrop-filter: blur(15px);
+        color: #ddd;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        padding: 1em;
+        width: max-content;
+        margin: 1em auto 0;
+        position: sticky;
+        bottom: 0;
+      }
     </style>
 
     <script type="module">
@@ -64,20 +77,28 @@
           column-gap: 1em;
           align-items: center;
         }
-        label > div {
+        label > .label {
           grid-area: label;
         }
-        label > input[type="range"] {
+        label > .range {
           grid-area: range;
         }
-        label > input[type="number"] {
+        label > .number {
           grid-area: number;
+          text-align: right;
+        }
+        input[type="number"] {
+          min-width: 6ch;
         }
       </style>
       <label>
-        <div><slot></slot></div>
-        <input type="range" min="0" max="100" value="50">
-        <input type="number" min="0" max="100" value="50">
+        <div class="label"><slot></slot></div>
+        <input class="range" type="range" min="0" max="100" value="50">
+        <div class="number">
+          <span class="prefix"></span>
+          <input type="number" min="0" max="100" value="50">
+          <span class="suffix"></span>
+        </div>
       </label>
     </template>
 
@@ -90,16 +111,16 @@
     <form>
       <fieldset>
         <legend>Preparation</legend>
-        <slider-input id="prep_hours" name="prep_hours" step="0.5" min="0" required>
+        <slider-input id="prep_hours" name="prep_hours" step="0.5" min="0" max="10" value="2" required>
           Total hours of preparation sessions:
         </slider-input>
-        <slider-input id="licensed_therapists_prep" name="licensed_therapists_prep" min="0" required>
+        <slider-input id="licensed_therapists_prep" name="licensed_therapists_prep" min="0" max="4" value="1" required>
           # of licensed therapists present for each preparation session:
         </slider-input>
-        <slider-input id="unlicensed_therapists_prep" name="unlicensed_therapists_prep" min="0" required>
+        <slider-input id="unlicensed_therapists_prep" name="unlicensed_therapists_prep" min="0" max="4" value="0" required>
           # of unlicensed therapists present for each preparation session:
         </slider-input>
-        <slider-input id="patients_prep" name="patients_prep" min="1" required>
+        <slider-input id="patients_prep" name="patients_prep" min="1" max="10" value="1" required>
           # of patients in each preparation session:
         </slider-input>
       </fieldset>
@@ -109,83 +130,86 @@
         <label for="drug_session">Psychedelic Drug Administration Session:</label>
         <select id="drug_session" name="drug_session" required>
           <option value="mdma" data-hours="6">MDMA with booster dose - 6 hours</option>
-          <option value="psilocybin" data-hours="8">Psilocybin - 8 hours</option>
+          <option value="psilocybin" data-hours="8" selected>Psilocybin - 8 hours</option>
           <option value="iv_psilocin" data-hours="2">IV psilocin – 2 hours</option>
           <option value="lsd" data-hours="24">LSD - 24 hours</option>
           <option value="5meo" data-hours="1.5">5MeO - 90 min</option>
           <option value="dmt" data-hours="0.5">Inhaled N, N DMT – 30 min</option>
           <option value="ibogaine" data-hours="72">Ibogaine - 72 hours</option>
         </select>
-        <slider-input id="anticipated_length" name="anticipated_length" min="0" step="0.5" required suffix="hours">
+        <br>
+        <slider-input id="anticipated_length" name="anticipated_length" min="0" step="0.5" max="48" value="8" required suffix="hours">
           Anticipated length of drug administration session (suggested lengths above):
         </slider-input>
-        <slider-input id="num_sessions" name="num_sessions" min="1" required>
+        <slider-input id="num_sessions" name="num_sessions" min="1" max="10" value="2" required>
           # of drug administration sessions:
         </slider-input>
 
-        <slider-input id="licensed_therapists_drug" name="licensed_therapists_drug" min="0" required>
+        <slider-input id="licensed_therapists_drug" name="licensed_therapists_drug" min="0" max="4" value="1" required>
           # of licensed therapists present for first drug administration session:
         </slider-input>
         <div id="licensed_therapists_hours_container"></div>
         <template id="licensed_therapists_hours_template">
-          <slider-input name="licensed_therapists_hours" min="1" required>
+          <slider-input name="licensed_therapists_hours" min="1" max="48" value="8" required>
             Hours of licensed therapists present for drug administration session(s):
           </slider-input>
         </template>
 
-        <slider-input id="unlicensed_therapists_drug" name="unlicensed_"ug_dristsaptherrequired>
+        <slider-input id="unlicensed_therapists_drug" name="unlicensed_therapists_drug" min="0" max="4" value="0" required>
           # of unlicensed therapists present for drug administration session:
         </slider-input>
         <div id="unlicensed_therapists_hours_container"></div>
         <template id="unlicensed_therapists_hours_template">
-          <slider-input name="unlicensed_therapists_hours" min="1" required>
+          <slider-input name="unlicensed_therapists_hours" min="1" max="48" value="8" required>
             Hours of unlicensed therapists present for drug administration session(s):
           </slider-input>
         </template>
 
         <label for="physician_needed">Physician/medical professional needed to be on call for drug administration session(s):</label>
-        <input type="checkbox" id="physician_needed" name="physician_needed" required />
+        <input type="checkbox" id="physician_needed" name="physician_needed" checked />
+        <br>
         <div id="physician_hours_container">
           <label for="different_sessions">Is session duration or staffing requirements different for different administration sessions?</label>
-          <input type="checkbox" id="different_sessions" name="different_sessions" required />
+          <input type="checkbox" id="different_sessions" name="different_sessions" />
+          <br>
           <div id="additional_sessions_container"></div>
           <template id="physician_hours_template">
-            <slider-input name="physician_hours" min="1" required>
+            <slider-input name="physician_hours" min="1" max="48" value="8" required>
               How long must the physician/medical professional remain available?
             </slider-input>
           </template>
         </div>
 
-        <slider-input id="patients_drug" name="patients_drug" min="1" required>
+        <slider-input id="patients_drug" name="patients_drug" min="1" max="10" value="1" required>
           # of patients receiving drug simultaneously in each administration session:
         </slider-input>
       </fieldset>
 
       <fieldset>
         <legend>Integration</legend>
-        <slider-input id="integration_hours" name="integration_hours" min="0" required>
+        <slider-input id="integration_hours" name="integration_hours" min="0" max="10" value="2" required>
           Total Hours of Integration Sessions:
         </slider-input>
-        <slider-input id="licensed_therapists_integration" name="licensed_therapists_integration" required>
+        <slider-input id="licensed_therapists_integration" name="licensed_therapists_integration" min="0" max="4" value="1" required>
           # of licensed therapists present for each integration session:
         </slider-input>
-        <slider-input id="unlicensed_therapists_integration" name="unlicensed_therapists_integration" required>
+        <slider-input id="unlicensed_therapists_integration" name="unlicensed_therapists_integration" min="0" max="4" value="0" required>
           # of unlicensed therapists present for each integration session:
         </slider-input>
-        <slider-input id="patients_integration" name="patients_integration" required>
+        <slider-input id="patients_integration" name="patients_integration" min="1" max="10" value="1" required>
           # of patients in each integration session:
         </slider-input>
       </fieldset>
 
       <fieldset>
         <legend>Hourly Rates</legend>
-        <slider-input id="rate_licensed" name="rate_licensed" required>
+        <slider-input id="rate_licensed" name="rate_licensed" min="50" max="500" value="200" prefix="$" required>
           Enter hourly rate of licensed therapist:
         </slider-input>
-        <slider-input id="rate_unlicensed" name="rate_unlicensed" required>
+        <slider-input id="rate_unlicensed" name="rate_unlicensed" min="50" max="500" value="100" prefix="$" required>
           Enter hourly rate of unlicensed therapist:
         </slider-input>
-        <slider-input id="rate_physician" name="rate_physician" required>
+        <slider-input id="rate_physician" name="rate_physician" min="50" max="500" value="300" prefix="$" required>
           Enter hourly rate of physician/medical professional:
         </slider-input>
       </fieldset>
