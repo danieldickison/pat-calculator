@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      rel="icon"
+      sizes="32x32"
+      href="favicon-32.png"
+    />
+
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+                    linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+                    linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 1em;
+        padding: 1em;
+      }
+      fieldset {
+        background: #fff6;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        width: 50ch;
+      }
+      legend {
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        font-weight: bold;
+      }
+      slider-input {
+        margin: 0 0.5em;
+      }
+    </style>
+
+    <script type="module">
+      import main from "./main.js"
+      main()
+    </script>
+  </head>
+
+  <body>
+    <template id="slider-input-template">
+      <style>
+        label {
+          display: grid;
+          grid-template:
+            "label label" auto
+            "range number" auto
+            / 1fr max-content;
+          column-gap: 1em;
+          align-items: center;
+        }
+        label > div {
+          grid-area: label;
+        }
+        label > input[type="range"] {
+          grid-area: range;
+        }
+        label > input[type="number"] {
+          grid-area: number;
+        }
+      </style>
+      <label>
+        <div><slot></slot></div>
+        <input type="range" min="0" max="100" value="50">
+        <input type="number" min="0" max="100" value="50">
+      </label>
+    </template>
+
+    <h1>Psychedelics Assisted Therapy Calculator</h1>
+
+    <p>
+      This calculator is designed to help you determine the cost of PAT.
+    </p>
+
+    <form>
+      <fieldset>
+        <legend>Preparation</legend>
+        <slider-input id="prep_hours" name="prep_hours" step="0.5" min="0" required>
+          Total hours of preparation sessions:
+        </slider-input>
+        <slider-input id="licensed_therapists_prep" name="licensed_therapists_prep" min="0" required>
+          # of licensed therapists present for each preparation session:
+        </slider-input>
+        <slider-input id="unlicensed_therapists_prep" name="unlicensed_therapists_prep" min="0" required>
+          # of unlicensed therapists present for each preparation session:
+        </slider-input>
+        <slider-input id="patients_prep" name="patients_prep" min="1" required>
+          # of patients in each preparation session:
+        </slider-input>
+      </fieldset>
+
+      <fieldset>
+        <legend>Drug Administration</legend>
+        <label for="drug_session">Psychedelic Drug Administration Session:</label>
+        <select id="drug_session" name="drug_session" required>
+          <option value="mdma" data-hours="6">MDMA with booster dose - 6 hours</option>
+          <option value="psilocybin" data-hours="8">Psilocybin - 8 hours</option>
+          <option value="iv_psilocin" data-hours="2">IV psilocin – 2 hours</option>
+          <option value="lsd" data-hours="24">LSD - 24 hours</option>
+          <option value="5meo" data-hours="1.5">5MeO - 90 min</option>
+          <option value="dmt" data-hours="0.5">Inhaled N, N DMT – 30 min</option>
+          <option value="ibogaine" data-hours="72">Ibogaine - 72 hours</option>
+        </select>
+        <slider-input id="anticipated_length" name="anticipated_length" min="0" step="0.5" required suffix="hours">
+          Anticipated length of drug administration session (suggested lengths above):
+        </slider-input>
+        <slider-input id="num_sessions" name="num_sessions" min="1" required>
+          # of drug administration sessions:
+        </slider-input>
+
+        <slider-input id="licensed_therapists_drug" name="licensed_therapists_drug" min="0" required>
+          # of licensed therapists present for first drug administration session:
+        </slider-input>
+        <div id="licensed_therapists_hours_container"></div>
+        <template id="licensed_therapists_hours_template">
+          <slider-input name="licensed_therapists_hours" min="1" required>
+            Hours of licensed therapists present for drug administration session(s):
+          </slider-input>
+        </template>
+
+        <slider-input id="unlicensed_therapists_drug" name="unlicensed_"ug_dristsaptherrequired>
+          # of unlicensed therapists present for drug administration session:
+        </slider-input>
+        <div id="unlicensed_therapists_hours_container"></div>
+        <template id="unlicensed_therapists_hours_template">
+          <slider-input name="unlicensed_therapists_hours" min="1" required>
+            Hours of unlicensed therapists present for drug administration session(s):
+          </slider-input>
+        </template>
+
+        <label for="physician_needed">Physician/medical professional needed to be on call for drug administration session(s):</label>
+        <input type="checkbox" id="physician_needed" name="physician_needed" required />
+        <div id="physician_hours_container">
+          <label for="different_sessions">Is session duration or staffing requirements different for different administration sessions?</label>
+          <input type="checkbox" id="different_sessions" name="different_sessions" required />
+          <div id="additional_sessions_container"></div>
+          <template id="physician_hours_template">
+            <slider-input name="physician_hours" min="1" required>
+              How long must the physician/medical professional remain available?
+            </slider-input>
+          </template>
+        </div>
+
+        <slider-input id="patients_drug" name="patients_drug" min="1" required>
+          # of patients receiving drug simultaneously in each administration session:
+        </slider-input>
+      </fieldset>
+
+      <fieldset>
+        <legend>Integration</legend>
+        <slider-input id="integration_hours" name="integration_hours" min="0" required>
+          Total Hours of Integration Sessions:
+        </slider-input>
+        <slider-input id="licensed_therapists_integration" name="licensed_therapists_integration" required>
+          # of licensed therapists present for each integration session:
+        </slider-input>
+        <slider-input id="unlicensed_therapists_integration" name="unlicensed_therapists_integration" required>
+          # of unlicensed therapists present for each integration session:
+        </slider-input>
+        <slider-input id="patients_integration" name="patients_integration" required>
+          # of patients in each integration session:
+        </slider-input>
+      </fieldset>
+
+      <fieldset>
+        <legend>Hourly Rates</legend>
+        <slider-input id="rate_licensed" name="rate_licensed" required>
+          Enter hourly rate of licensed therapist:
+        </slider-input>
+        <slider-input id="rate_unlicensed" name="rate_unlicensed" required>
+          Enter hourly rate of unlicensed therapist:
+        </slider-input>
+        <slider-input id="rate_physician" name="rate_physician" required>
+          Enter hourly rate of physician/medical professional:
+        </slider-input>
+      </fieldset>
+
+      <button type="button">Calculate!</button>
+    </form>
+
+    <section id="output">
+      <p>Total number of licensed therapist hours: <span id="total_licensed_hours"></span></p>
+      <p>Total number of unlicensed therapist hours: <span id="total_unlicensed_hours"></span></p>
+      <p>Total number of physician/medical professional hours: <span id="total_physician_hours"></span></p>
+      <p>Total Approximate labor cost: <span id="total_cost"></span></p>
+    </section>
+  </body>
+</html>
