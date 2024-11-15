@@ -8,6 +8,8 @@ export class PatCalculator {
       totalCost: output.querySelector('#total_cost'),
     }
     form.form.addEventListener('input', () => this.calculate())
+    form.form.addEventListener('change', () => this.calculate())
+    this.calculate()
   }
 
   calculate () {

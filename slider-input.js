@@ -19,12 +19,10 @@ export class SliderInput extends HTMLElement {
     this.#elementInternals = this.attachInternals()
 
     this.#rangeInput.addEventListener('input', () => {
-      this.#numberInput.value = this.#rangeInput.value
-      this.#elementInternals.setFormValue(this.#rangeInput.value)
+      this.value = this.#rangeInput.value
     })
     this.#numberInput.addEventListener('input', () => {
-      this.#rangeInput.value = this.#numberInput.value
-      this.#elementInternals.setFormValue(this.#numberInput.value)
+      this.value = this.#numberInput.value
     })
   }
 
@@ -41,7 +39,10 @@ export class SliderInput extends HTMLElement {
       this.#shadowRoot.querySelector('.' + name).textContent = newValue
       break
     case 'value':
-      this.value = parseFloat(newValue)
+      const val = parseFloat(newValue)
+      this.#numberInput.value = val
+      this.#rangeInput.value = val
+      this.#elementInternals.setFormValue(val)
       break
     default:
       this.#numberInput.setAttribute(name, newValue)
@@ -65,8 +66,6 @@ export class SliderInput extends HTMLElement {
   }
 
   set value (val) {
-    this.#numberInput.value = val
-    this.#rangeInput.value = val
-    this.#elementInternals.setFormValue(val)
+    this.setAttribute("value", val)
   }
 }

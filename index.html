@@ -13,15 +13,23 @@
     />
 
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+
+      html {
+        background-color: #caa5e5;
+      }
+
       body {
-        font-family: sans-serif;
+        font-family: Roboto, system-ui, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f0f0f0;
-        background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-                    linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-                    linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+        background: radial-gradient(circle farthest-side at 100% -50%,#6b7cff96,transparent),radial-gradient(circle farthest-side at 90% -50%,#f582e2e0,transparent),radial-gradient(circle farthest-side at 80% -50%,#f7eaa6,white);
         color: #333;
+      }
+
+      h1, h2, h3, h4, h5, legend {
+        font-family: 'Syne', sans-serif;
+        line-height: 1.75;
       }
 
       form {
@@ -40,6 +48,7 @@
         background: #f0f0f0;
         border: 1px solid #ccc;
         font-weight: bold;
+        padding: 0.25em 1em;
       }
       slider-input {
         margin: 0 0.5em;
@@ -139,16 +148,18 @@
 
       <fieldset>
         <legend>Drug Administration</legend>
-        <label for="drug_session">Psychedelic Drug Administration Session:</label>
-        <select id="drug_session" name="drug_session" required>
-          <option value="mdma" data-hours="6">MDMA with booster dose - 6 hours</option>
-          <option value="psilocybin" data-hours="8" selected>Psilocybin - 8 hours</option>
-          <option value="iv_psilocin" data-hours="2">IV psilocin – 2 hours</option>
-          <option value="lsd" data-hours="24">LSD - 24 hours</option>
-          <option value="5meo" data-hours="1.5">5MeO - 90 min</option>
-          <option value="dmt" data-hours="0.5">Inhaled N, N DMT – 30 min</option>
-          <option value="ibogaine" data-hours="72">Ibogaine - 72 hours</option>
-        </select>
+        <label>
+          Psychedelic Drug Administration Session:
+          <select name="drug_type" required>
+            <option value="mdma" data-hours="6">MDMA with booster dose - 6 hours</option>
+            <option value="psilocybin" data-hours="8" selected>Psilocybin - 8 hours</option>
+            <option value="iv_psilocin" data-hours="2">IV psilocin – 2 hours</option>
+            <option value="lsd" data-hours="24">LSD - 24 hours</option>
+            <option value="5meo" data-hours="1.5">5MeO - 90 min</option>
+            <option value="dmt" data-hours="0.5">Inhaled N, N DMT – 30 min</option>
+            <option value="ibogaine" data-hours="72">Ibogaine - 72 hours</option>
+          </select>
+        </label>
         <br>
         <slider-input name="drug_hours" min="0" step="0.5" max="48" value="8" required suffix="hours">
           Anticipated length of drug administration session:
@@ -177,15 +188,23 @@
           </slider-input>
         </template>
 
-        <label for="physician_needed">Physician/medical professional needed to be on call for drug administration session(s):</label>
-        <input type="checkbox" id="physician_needed" name="physician_needed" checked />
+        <label>
+          <input type="checkbox" name="physician_needed" checked />
+          Physician/medical professional needed to be on call for drug administration session(s)
+        </label>
         <br>
-        <div id="physician_hours_container">
-          <label for="different_sessions">Is session duration or staffing requirements different for different administration sessions?</label>
-          <input type="checkbox" id="different_sessions" name="different_sessions" />
-          <br>
-          <div id="additional_sessions_container"></div>
-          <template id="physician_hours_template">
+        <div class="physician_hours_container">
+          <label>
+            <input type="checkbox" name="different_sessions" />
+            Is session duration or staffing requirements different for different administration sessions?
+          </label>
+          <div class="container physician_sessions"></div>
+          <template class="physician_hours_multi">
+            <slider-input name="physician_hours" min="1" max="48" value="8" required>
+              How long must the physician/medical professional remain available for administration <span class="number"></span>?
+            </slider-input>
+          </template>
+          <template class="physician_hours_single">
             <slider-input name="physician_hours" min="1" max="48" value="8" required>
               How long must the physician/medical professional remain available?
             </slider-input>
@@ -231,7 +250,7 @@
       <p>Total number of licensed therapist hours: <span id="total_licensed_hours"></span></p>
       <p>Total number of unlicensed therapist hours: <span id="total_unlicensed_hours"></span></p>
       <p>Total number of physician/medical professional hours: <span id="total_physician_hours"></span></p>
-      <p>Total Approximate labor cost: <span id="total_cost"></span></p>
+      <p>Total approximate labor cost: <strong>$<span id="total_cost"></span></strong></p>
     </section>
   </body>
 </html>
