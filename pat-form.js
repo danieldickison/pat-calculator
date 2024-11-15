@@ -86,6 +86,7 @@ export class PatForm {
       this.form.elements.different_sessions.checked = false
     }
     this.form.elements.different_sessions.disabled = sessions === 1
+    this.form.querySelector('.different_sessions_wrapper').style.display = sessions === 1 ? 'none' : null
 
     const drugHours = this.form.elements.drug_hours.value
     const diffHours = this.form.elements.different_sessions.checked
