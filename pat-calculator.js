@@ -13,29 +13,40 @@ export class PatCalculator {
   }
 
   calculate () {
-    const { participants, prep, drug, integration, rates } = this.form
-    const prepGroups = Math.ceil(participants / prep.patients)
-    const drugSessions = drug.sessions * Math.ceil(participants / drug.patients)
-    const integrationGroups = Math.ceil(participants / integration.patients)
+    const { prep, drug, integration, rates } = this.form
 
     const totalHours = {
       licensed: (
-        prepGroups * prep.hours * prep.licensed +
-        drugSessions * drug.licensedHours +
-        integrationGroups * integration.hours * integration.licensed
+        (prep.hours * prep.licensed / prep.patients) +
+        (drug.licensedHours / drug.patients) +
+        (integration.hours * integration.licensed / integration.patients)
       ),
       unlicensed: (
-        prepGroups * prep.hours * prep.unlicensed +
-        drugSessions * drug.unlicensedHours +
-        integrationGroups * integration.hours * integration.unlicensed
+        (prep.hours * prep.unlicensed / prep.patients) +
+        (drug.unlicensedHours / prep.patients) +
+        (integration.hours * integration.unlicensed / integration.patients)
       ),
-      physician: drugSessions * drug.physicianHours,
+      physician: drug.physicianHours / drug.patients,
     }
 
-    this.output.totalLicensedHours.textContent = totalHours.licensed
-    this.output.totalUnlicensedHours.textContent = totalHours.unlicensed
-    this.output.totalPhysicianHours.textContent = totalHours.physician
+    this.output.totalLicensedHours.textContent = formatHours(totalHours.licensed)
+    this.output.totalUnlicensedHours.textContent = formatHours(totalHours.unlicensed)
+    this.output.totalPhysicianHours.textContent = formatHours(totalHours.physician)
 
-    this.output.totalCost.textContent = totalHours.licensed * rates.licensed + totalHours.unlicensed * rates.unlicensed + totalHours.physician * rates.physician
+    this.output.totalCost.textContent = formatMoney(totalHours.licensed * rates.licensed + totalHours.unlicensed * rates.unlicensed + totalHours.physician * rates.physician)
   }
+}
+
+function formatHours(hours) {
+  if (hours === 1) {
+    return '1 hour'
+  } else if (hours % 1) {
+    return hours.toFixed(1) + ' hours'
+  } else {
+    return hours.toFixed(0) + ' hours'
+  }
+}
+
+function formatMoney (dollars) {
+  return '$' + dollars.toFixed(0)
 }

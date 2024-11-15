@@ -8,7 +8,9 @@ export class PatForm {
     form.elements.licensed_therapists_drug.addEventListener('input', (e) => this.#reactToTherapistChange('licensed_therapists_hours', e.currentTarget.value))
     form.elements.unlicensed_therapists_drug.addEventListener('input', (e) => this.#reactToTherapistChange('unlicensed_therapists_hours', e.currentTarget.value))
 
-    form.elements.physician_needed.addEventListener('change', () => this.#reactToPhysicianChange())
+    for (const radio of form.elements.physician_needed) {
+      radio.addEventListener('change', () => this.#reactToPhysicianChange())
+    }
     form.elements.different_sessions.addEventListener('change', () => this.#reactToPhysicianChange())
     form.elements.drug_sessions.addEventListener('input', () => this.#reactToPhysicianChange())
 
@@ -44,9 +46,9 @@ export class PatForm {
   }
 
   #reactToPhysicianChange () {
-    const needed = this.form.elements.physician_needed.checked
-    const hoursContainer = this.form.querySelector('.physician_hours_container')
-    const sessionsContainer = this.form.querySelector('.container.physician_sessions')
+    const needed = this.form.elements.physician_needed.value === '1'
+    const hoursContainer = this.form.querySelector('.container.physician_hours')
+    const sessionsContainer = this.form.querySelector('.container.physician_hours > .physician_sessions')
     const currentHours = Array.from(sessionsContainer.querySelectorAll('slider-input')).map(el => el.value)
     while (sessionsContainer.lastElementChild) sessionsContainer.removeChild(sessionsContainer.lastElementChild)
 
@@ -76,10 +78,6 @@ export class PatForm {
       clone.querySelector('slider-input').setAttribute('value', currentHours[0] ?? this.form.elements.drug_hours.value)
       sessionsContainer.appendChild(clone)
     }
-  }
-
-  get participants () {
-    return this.form.elements.participants.value
   }
 
   get prep () {
@@ -113,7 +111,7 @@ export class PatForm {
       physicianHours: (
         this.form.elements.different_sessions.checked ?
         getMultipleValueSum('physician_hours') :
-        this.form.elements.physician_hours.value * this.form.elements.drug_sessions.value
+        (this.form.elements.physician_hours?.value ?? 0) * this.form.elements.drug_sessions.value
       ),
 
       patients: this.form.elements.patients_drug.value,
