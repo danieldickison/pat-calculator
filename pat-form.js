@@ -128,12 +128,13 @@ export class PatForm {
           .reduce((acc, el) => acc + Number(el.value), 0)
       }
     }
+    const sessions = this.form.elements.drug_sessions.value
     return {
       hours: this.form.elements.drug_hours.value,
-      sessions: this.form.elements.drug_sessions.value,
+      sessions,
 
-      licensedHours: getMultipleValueSum('licensed_therapists_hours'),
-      unlicensedHours: getMultipleValueSum('unlicensed_therapists_hours'),
+      licensedHours: sessions * getMultipleValueSum('licensed_therapists_hours'),
+      unlicensedHours: sessions * getMultipleValueSum('unlicensed_therapists_hours'),
       physicianHours: (
         this.form.elements.different_sessions.checked ?
         getMultipleValueSum('physician_hours') :
