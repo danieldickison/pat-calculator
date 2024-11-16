@@ -123,9 +123,9 @@
         label {
           display: grid;
           grid-template:
-            "label label" auto
-            "range number" auto
-            / 1fr max-content;
+            "label label label label" auto
+            "l range number r" auto
+            / minmax(0, 1em) 1fr max-content minmax(0, 1em);
           column-gap: 1em;
           align-items: center;
         }
