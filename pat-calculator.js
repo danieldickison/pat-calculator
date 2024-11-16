@@ -23,7 +23,7 @@ export class PatCalculator {
       ),
       unlicensed: (
         (prep.hours * prep.unlicensed / prep.patients) +
-        (drug.unlicensedHours / prep.patients) +
+        (drug.unlicensedHours / drug.patients) +
         (integration.hours * integration.unlicensed / integration.patients)
       ),
       physician: drug.physicianHours / drug.patients,
