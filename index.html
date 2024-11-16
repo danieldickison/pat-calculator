@@ -31,6 +31,7 @@
 
       body {
         font-family: Roboto, system-ui, sans-serif;
+        line-height: 1.5;
         margin: 0;
         padding: 0;
         color: #111;
@@ -44,6 +45,8 @@
 
       header {
         padding: 2rem;
+        max-width: 80ch;
+        margin: 0 auto;
       }
 
       form {
@@ -92,7 +95,7 @@
         line-height: 1;
         font-family: 'DotGothic16', monospace;
         font-size: 0.875rem;
-        text-shadow: 0 1px 2px black;
+        text-shadow: 0 1px 2px #0009;
       }
       #output p {
         margin: 0.25em;
@@ -100,6 +103,10 @@
       #output strong {
         font-family: 'DotGothic16', monospace;
         font-size: 1.25rem;
+      }
+      footer {
+        text-align: right;
+        padding: 0.5em 1em;
       }
     </style>
 
@@ -157,7 +164,7 @@
       <h1>Trip Tally</h1>
 
       <p>
-        TBD… This calculator is designed to help you determine the cost of PAT.
+        This handy calculator helps you figure out the provider labor costs for a single participant going through psychedelic therapy. It’s a simple way to get a clear picture of the therapy and medical labor costs involved, whether you’re a researcher, clinician, or just curious about how it all adds up. Give it a try and see how it can assist in planning and budgeting for psychedelic therapy. This tool was made by the <a href="https://psychedelics.ucsf.edu" target="_blank">UCSF Translational Psychedelic Research (TrPR) Program</a>.
       </p>
     </header>
 
@@ -291,5 +298,11 @@
       <p>Physician/medical professional: <strong id="total_physician_hours"></strong></p>
       <p>Approximate labor cost: <strong id="total_cost"></strong></p>
     </section>
+
+    <footer>
+      <p>
+        Created by <a href="https://danieldickison.com" target="_blank">Daniel Dickison</a> for <a href="https://psychedelics.ucsf.edu" target="_blank">UCSF TrIPR</a>. <a href="https://github.com/danieldickison/pat-calculator" target="_blank">Source code</a> available.
+      </p>
+    </footer>
   </body>
 </html>
