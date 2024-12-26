@@ -10,14 +10,10 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta name="theme-color" content="#e2c4e3" />
-    <link
-      rel="icon"
-      sizes="32x32"
-      href="favicon-32.png"
-    />
+    <link rel="icon" sizes="32x32" href="favicon-32.png" />
 
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Syne:wght@400..800&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=DotGothic16&family=Syne:wght@400..800&display=swap");
 
       * {
         box-sizing: border-box;
@@ -25,7 +21,17 @@
 
       html {
         background-color: #e2c4e3;
-        background-image: radial-gradient(circle farthest-side at 100% -50%,#6b7cff96,transparent),radial-gradient(circle farthest-side at 90% -50%,#f582e2e0,transparent),radial-gradient(circle farthest-side at 80% -50%,#f7eaa6,white);
+        background-image: radial-gradient(
+            circle farthest-side at 100% -50%,
+            #6b7cff96,
+            transparent
+          ),
+          radial-gradient(
+            circle farthest-side at 90% -50%,
+            #f582e2e0,
+            transparent
+          ),
+          radial-gradient(circle farthest-side at 80% -50%, #f7eaa6, white);
         background-repeat: no-repeat;
       }
 
@@ -37,8 +43,13 @@
         color: #111;
       }
 
-      h1, h2, h3, h4, h5, legend {
-        font-family: 'Syne', sans-serif;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      legend {
+        font-family: "Syne", sans-serif;
         line-height: 1.5;
         margin: 0;
       }
@@ -93,7 +104,7 @@
         position: sticky;
         bottom: 0;
         line-height: 1;
-        font-family: 'DotGothic16', monospace;
+        font-family: "DotGothic16", monospace;
         font-size: 0.875rem;
         text-shadow: 0 1px 2px #0009;
       }
@@ -101,7 +112,7 @@
         margin: 0.25em;
       }
       #output strong {
-        font-family: 'DotGothic16', monospace;
+        font-family: "DotGothic16", monospace;
         font-size: 1.25rem;
       }
       footer {
@@ -111,10 +122,14 @@
     </style>
 
     <script type="module">
-      import main from "./main.js"
-      main()
+      import main from "./main.js";
+      main();
     </script>
-    <script defer data-domain="danieldickison.github.io" src="https://plausible.io/js/script.js"></script>
+    <script
+      defer
+      data-domain="danieldickison.github.io"
+      src="https://plausible.io/js/script.js"
+    ></script>
   </head>
 
   <body>
@@ -142,7 +157,7 @@
         input[type="number"] {
           min-width: 6ch;
           text-align: right;
-          font-family: 'DotGothic16', monospace;
+          font-family: "DotGothic16", monospace;
           font-size: 0.875rem;
           border: solid 1px #0006;
           background: #0009;
@@ -151,10 +166,10 @@
       </style>
       <label>
         <div class="label"><slot></slot></div>
-        <input class="range" type="range" min="0" max="100" value="50">
+        <input class="range" type="range" min="0" max="100" value="50" />
         <div class="number">
           <span class="prefix"></span>
-          <input type="number" min="0" max="100" value="50">
+          <input type="number" min="0" max="100" value="50" />
           <span class="suffix"></span>
         </div>
       </label>
@@ -164,20 +179,48 @@
       <h1>Trip Tally</h1>
 
       <p>
-        This handy calculator helps you figure out the provider labor costs for a single participant going through psychedelic therapy. It’s a simple way to get a clear picture of the therapy and medical labor costs involved, whether you’re a researcher, clinician, or just curious about how it all adds up. Give it a try and see how it can assist in planning and budgeting for psychedelic therapy. This tool was made by the <a href="https://psychedelics.ucsf.edu" target="_blank">UCSF Translational Psychedelic Research (TrPR) Program</a>.
+        This handy calculator helps you figure out the provider labor costs for
+        a single participant going through psychedelic therapy. It’s a simple
+        way to get a clear picture of the therapy and medical labor costs
+        involved, whether you’re a researcher, clinician, or just curious about
+        how it all adds up. Give it a try and see how it can assist in planning
+        and budgeting for psychedelic therapy. This tool was made by the
+        <a href="https://psychedelics.ucsf.edu" target="_blank"
+          >UCSF Translational Psychedelic Research (TrPR) Program</a
+        >.
       </p>
     </header>
 
     <form>
       <fieldset>
         <legend>Preparation</legend>
-        <slider-input name="prep_hours" step="0.5" min="0" max="100" value="2" suffix="hours" required>
+        <slider-input
+          name="prep_hours"
+          step="0.5"
+          min="0"
+          max="100"
+          value="2"
+          suffix="hours"
+          required
+        >
           Total hours of preparation sessions:
         </slider-input>
-        <slider-input name="licensed_therapists_prep" min="0" max="10" value="1" required>
+        <slider-input
+          name="licensed_therapists_prep"
+          min="0"
+          max="10"
+          value="1"
+          required
+        >
           # of licensed therapists present for each preparation session:
         </slider-input>
-        <slider-input name="unlicensed_therapists_prep" min="0" max="10" value="0" required>
+        <slider-input
+          name="unlicensed_therapists_prep"
+          min="0"
+          max="10"
+          value="0"
+          required
+        >
           # of unlicensed therapists present for each preparation session:
         </slider-input>
         <slider-input name="patients_prep" min="1" max="20" value="1" required>
@@ -190,44 +233,95 @@
         <label>
           Psychedelic drug administration session:
           <select name="drug_type" required>
-            <option value="mdma" data-hours="6">MDMA with booster dose - 6 hours</option>
-            <option value="psilocybin" data-hours="8" selected>Psilocybin - 8 hours</option>
-            <option value="iv_psilocin" data-hours="2">IV psilocin – 2 hours</option>
+            <option value="mdma" data-hours="6">
+              MDMA with booster dose - 6 hours
+            </option>
+            <option value="psilocybin" data-hours="8" selected>
+              Psilocybin - 8 hours
+            </option>
+            <option value="iv_psilocin" data-hours="2">
+              IV psilocin – 2 hours
+            </option>
             <option value="lsd" data-hours="24">LSD - 24 hours</option>
             <option value="5meo" data-hours="1.5">5MeO - 90 min</option>
-            <option value="dmt" data-hours="0.5">Inhaled N, N DMT – 30 min</option>
-            <option value="ibogaine" data-hours="72">Ibogaine - 72 hours</option>
+            <option value="dmt" data-hours="0.5">
+              Inhaled N, N DMT – 30 min
+            </option>
+            <option value="ibogaine" data-hours="72">
+              Ibogaine - 72 hours
+            </option>
           </select>
         </label>
-        <br>
-        <slider-input name="drug_hours" min="0" step="0.5" max="72" value="8" required suffix="hours">
+        <br />
+        <slider-input
+          name="drug_hours"
+          min="0"
+          step="0.5"
+          max="72"
+          value="8"
+          required
+          suffix="hours"
+        >
           Anticipated length of drug administration session:
         </slider-input>
         <slider-input name="drug_sessions" min="1" max="10" value="2" required>
           # of drug administration sessions:
         </slider-input>
 
-        <slider-input name="licensed_therapists_drug" min="0" max="10" value="1" required>
-          # of licensed therapists present for first drug administration session:
+        <slider-input
+          name="licensed_therapists_drug"
+          min="0"
+          max="10"
+          value="1"
+          required
+        >
+          # of licensed therapists present for first drug administration
+          session:
         </slider-input>
         <div class="container licensed_therapists_hours"></div>
         <template class="licensed_therapists_hours">
-          <slider-input name="licensed_therapists_hours" min="1" max="72" value="8" step="0.5" suffix="hours" required>
-            Hours licensed therapist <span class="number"></span> present for each drug administration session:
+          <slider-input
+            name="licensed_therapists_hours"
+            min="1"
+            max="72"
+            value="8"
+            step="0.5"
+            suffix="hours"
+            required
+          >
+            Hours licensed therapist <span class="number"></span> present for
+            each drug administration session:
           </slider-input>
         </template>
 
-        <slider-input name="unlicensed_therapists_drug" min="0" max="10" value="0" required>
+        <slider-input
+          name="unlicensed_therapists_drug"
+          min="0"
+          max="10"
+          value="0"
+          required
+        >
           # of unlicensed therapists present for drug administration session:
         </slider-input>
         <div class="container unlicensed_therapists_hours"></div>
         <template class="unlicensed_therapists_hours">
-          <slider-input name="unlicensed_therapists_hours" min="1" max="72" value="8" step="0.5" suffix="hours" required>
-            Hours unlicensed therapist <span class="number"></span> present for each drug administration session:
+          <slider-input
+            name="unlicensed_therapists_hours"
+            min="1"
+            max="72"
+            value="8"
+            step="0.5"
+            suffix="hours"
+            required
+          >
+            Hours unlicensed therapist <span class="number"></span> present for
+            each drug administration session:
           </slider-input>
         </template>
 
-        <p class="label">Physician/medical professional needed to be on call for drug administration session(s):
+        <p class="label">
+          Physician/medical professional needed to be on call for drug
+          administration session(s):
           <label>
             <input type="radio" name="physician_needed" value="1" checked />
             Yes
@@ -241,51 +335,116 @@
         <div class="container physician_hours">
           <label class="different_sessions_wrapper">
             <input type="checkbox" name="different_sessions" />
-            Variable duration or staffing requirements for different administration sessions
+            Variable duration or staffing requirements for different
+            administration sessions
           </label>
           <div class="physician_sessions"></div>
           <template class="physician_hours_multi">
-            <slider-input name="physician_hours" min="1" max="72" value="8" step="0.5" suffix="hours" required>
-              How long must the physician/medical professional remain available for administration <span class="number"></span>?
+            <slider-input
+              name="physician_hours"
+              min="1"
+              max="72"
+              value="8"
+              step="0.5"
+              suffix="hours"
+              required
+            >
+              How long must the physician/medical professional remain available
+              for administration <span class="number"></span>?
             </slider-input>
           </template>
           <template class="physician_hours_single">
-            <slider-input name="physician_hours" min="1" max="72" value="8" step="0.5" suffix="hours" required>
+            <slider-input
+              name="physician_hours"
+              min="1"
+              max="72"
+              value="8"
+              step="0.5"
+              suffix="hours"
+              required
+            >
               How long must the physician/medical professional remain available?
             </slider-input>
           </template>
         </div>
 
         <slider-input name="patients_drug" min="1" max="20" value="1" required>
-          # of patients receiving drug simultaneously in each administration session:
+          # of patients receiving drug simultaneously in each administration
+          session:
         </slider-input>
       </fieldset>
 
       <fieldset>
         <legend>Integration</legend>
-        <slider-input name="integration_hours" min="0" max="100" value="2" suffix="hours" required>
+        <slider-input
+          name="integration_hours"
+          min="0"
+          max="100"
+          value="2"
+          suffix="hours"
+          required
+        >
           Total hours of integration sessions:
         </slider-input>
-        <slider-input name="licensed_therapists_integration" min="0" max="10" value="1" required>
+        <slider-input
+          name="licensed_therapists_integration"
+          min="0"
+          max="10"
+          value="1"
+          required
+        >
           # of licensed therapists present for each integration session:
         </slider-input>
-        <slider-input name="unlicensed_therapists_integration" min="0" max="10" value="0" required>
+        <slider-input
+          name="unlicensed_therapists_integration"
+          min="0"
+          max="10"
+          value="0"
+          required
+        >
           # of unlicensed therapists present for each integration session:
         </slider-input>
-        <slider-input name="patients_integration" min="1" max="20" value="1" required>
+        <slider-input
+          name="patients_integration"
+          min="1"
+          max="20"
+          value="1"
+          required
+        >
           # of patients in each integration session:
         </slider-input>
       </fieldset>
 
       <fieldset>
         <legend>Hourly Rates</legend>
-        <slider-input name="rate_licensed" min="50" max="1000" value="200" prefix="$" required>
+        <slider-input
+          name="rate_licensed"
+          min="50"
+          max="1000"
+          value="200"
+          prefix="$"
+          required
+        >
           Hourly rate of licensed therapist:
         </slider-input>
-        <slider-input name="rate_unlicensed" min="50" max="1000" value="100" prefix="$" required>
+        <slider-input
+          name="rate_unlicensed"
+          min="50"
+          max="1000"
+          value="100"
+          prefix="$"
+          required
+        >
           Hourly rate of unlicensed therapist:
         </slider-input>
-        <slider-input name="rate_physician" min="50" max="1000" value="300" prefix="$" required>
+        <slider-input
+          name="rate_physician"
+          min="50"
+          max="1000"
+          value="300"
+          prefix="$"
+          required
+        >
           Hourly rate of physician/medical professional:
         </slider-input>
 
@@ -303,13 +462,25 @@
       <h2>Provider Costs Per Patient</h2>
       <p>Licensed therapist: <strong id="total_licensed_hours"></strong></p>
       <p>Unlicensed therapist: <strong id="total_unlicensed_hours"></strong></p>
-      <p>Physician/medical professional: <strong id="total_physician_hours"></strong></p>
+      <p>
+        Physician/medical professional:
+        <strong id="total_physician_hours"></strong>
+      </p>
       <p>Approximate labor cost: <strong id="total_cost"></strong></p>
     </section>
 
     <footer>
       <p>
-        Created by <a href="https://danieldickison.com" target="_blank">Daniel Dickison</a> for <a href="https://psychedelics.ucsf.edu" target="_blank">UCSF TrPR</a>. <a href="https://github.com/danieldickison/pat-calculator" target="_blank">Source code</a> available.
+        Created by
+        <a href="https://danieldickison.com" target="_blank">Daniel Dickison</a>
+        for
+        <a href="https://psychedelics.ucsf.edu" target="_blank">UCSF TrPR</a>.
+        <a
+          href="https://github.com/danieldickison/pat-calculator"
+          target="_blank"
+          >Source code</a
+        >
+        available.
       </p>
     </footer>
   </body>
